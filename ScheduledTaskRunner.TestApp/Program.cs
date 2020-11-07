@@ -23,8 +23,7 @@ namespace JcCore.ScheduledTaskRunner.TestApp
         {
             var serviceCollection = new ServiceCollection();
 
-            serviceCollection.AddSingleton<IScheduledTask, ExampleScheduledTask>();
-            serviceCollection.AddSingleton<IScheduledTask, AnotherExampleScheduledTask>();
+            serviceCollection.AddHostedService<ExampleScheduledTask>();
 
             return serviceCollection;
         }
