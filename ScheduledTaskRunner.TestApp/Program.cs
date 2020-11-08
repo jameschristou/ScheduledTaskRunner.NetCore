@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using JcCore.ScheduledTaskRunner;
 using JcCore.ScheduledTaskRunner.Extensions;
 
@@ -10,22 +11,22 @@ namespace JcCore.ScheduledTaskRunner.TestApp
     {
         public static async Task Main(string[] args)
         {
-            var serviceProvider = ConfigureServices().BuildServiceProvider();
+            var builder = new HostBuilder()
+            .ConfigureServices((hostContext, services) =>
+            {
+                ConfigureServices(services);
+            });
 
-            // run the startup tasks
-            await serviceProvider.SetUpScheduledTasks();
-
-            // wait for eternity :-)
-            Thread.Sleep(-1);
+            await builder.RunConsoleAsync();
         }
 
-        private static IServiceCollection ConfigureServices()
+        private static IServiceCollection ConfigureServices(IServiceCollection services)
         {
-            var serviceCollection = new ServiceCollection();
+            services.AddHostedService<ExampleScheduledTask>();
+            services.AddHostedService<AnotherExampleScheduledTask>();
+            services.AddHostedService<MyApplication>();
 
-            serviceCollection.AddHostedService<ExampleScheduledTask>();
-
-            return serviceCollection;
+            return services;
         }
     }
 }

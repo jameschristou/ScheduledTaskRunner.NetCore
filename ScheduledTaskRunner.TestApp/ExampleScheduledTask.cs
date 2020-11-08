@@ -11,7 +11,7 @@ namespace JcCore.ScheduledTaskRunner.TestApp
         private readonly IServiceProvider _serviceProvider;
 
         public ExampleScheduledTask() 
-                : base(new TimeSpan(0, 0, 30))
+                : base(new TimeSpan(0, 0, 10))
         {
         }
 
